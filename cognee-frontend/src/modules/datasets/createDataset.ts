@@ -5,7 +5,7 @@ export default async function createDataset(
   instance: CogneeInstance,
   tenantId?: string | null,
 ) {
-  const response = await instance.fetch(`/v1/datasets/`, {
+  const response = await instance.fetch(`/v1/datasets`, {
     method: "POST",
     body: JSON.stringify(dataset),
     headers: { "Content-Type": "application/json" },

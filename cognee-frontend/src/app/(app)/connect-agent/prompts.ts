@@ -49,7 +49,7 @@ Search types: GRAPH_COMPLETION, SIMILARITY, GRAPH_SUMMARY, HYBRID
 
 ### List datasets
 \`\`\`
-GET $COGNEE_BASE_URL/api/v1/datasets/
+GET $COGNEE_BASE_URL/api/v1/datasets
 Headers: X-Api-Key: $COGNEE_API_KEY
 \`\`\`
 
@@ -105,7 +105,7 @@ Search types: GRAPH_COMPLETION, SIMILARITY, GRAPH_SUMMARY, HYBRID
 
 ### List datasets
 \`\`\`bash
-curl -s $COGNEE_BASE_URL/api/v1/datasets/ -H "X-Api-Key: $COGNEE_API_KEY"
+curl -s $COGNEE_BASE_URL/api/v1/datasets -H "X-Api-Key: $COGNEE_API_KEY"
 \`\`\`
 
 ## Behavior Guidelines
