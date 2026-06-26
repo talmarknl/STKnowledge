@@ -1,4 +1,20 @@
 FROM cognee/cognee-mcp:main
 
+# Patch CogneeClient to use X-Api-Key header for self-hosted instances.
+# By default the client sends "Authorization: Bearer <token>" which the
+# cognee backend only accepts for JWTs. API keys must arrive via X-Api-Key.
+RUN python - <<'EOF'
+import re, pathlib
+p = pathlib.Path("/app/.venv/lib/python3.12/site-packages/src/cognee_client.py")
+src = p.read_text()
+patched = src.replace(
+    'headers["Authorization"] = f"Bearer {self.api_token}"',
+    'headers["X-Api-Key"] = self.api_token'
+)
+assert patched != src, "Patch target not found — check cognee_client.py path"
+p.write_text(patched)
+print("cognee_client.py patched: Authorization: Bearer -> X-Api-Key")
+EOF
+
 ENTRYPOINT ["sh", "-lc"]
 CMD ["exec /app/.venv/bin/cognee-mcp --host 0.0.0.0 --port ${PORT:-8000} --transport ${TRANSPORT_MODE:-sse} ${API_URL:+--api-url ${API_URL}} ${SERVE_URL:+--serve-url ${SERVE_URL}} ${API_TOKEN:+--api-token ${API_TOKEN}}"]
